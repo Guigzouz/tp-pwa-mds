@@ -11,7 +11,6 @@ export default defineConfig({
     VitePWA({
       registerType: "autoUpdate",
       injectRegister: "auto",
-      devOptions: { enabled: true },
       workbox: {
         navigateFallback: "/index.html",
         globPatterns: ["**/*.{js,css,html,png,svg,jpg,jpeg,json}"],

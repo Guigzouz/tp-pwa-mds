@@ -1,18 +1,47 @@
-import { useState } from "react";
-import { Worker } from "@react-pdf-viewer/core";
-
-<Worker workerUrl="https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js"></Worker>;
-
 import "./App.css";
+import NotesComponent from "./components/NotesComponent";
+import HeaderComponent from "./components/HeaderComponent";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const handleNotification = () => {
+    Notification.requestPermission().then((perm) => {
+      if (perm === "granted") {
+        const notification = new Notification("Hello, World!", {
+          body: Math.random(),
+          data: { hello: "world" },
+          icon: "144.png",
+          tag: "Welcome Message",
+        });
+
+        notification.onclose = () => {
+          console.log("The notification was closed.");
+        };
+      }
+    });
+  };
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "hidden") {
+      new Notification("Come back!", {
+        body: "Come back PLEASE!",
+        tag: "Pls!",
+      });
+    }
+  });
 
   return (
     <>
-      <div>Hello world</div>
-      <div>{count}</div>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <HeaderComponent />
+      <div className="app-wrapper">
+        <section className="main-section">
+          <iframe className="pdf-display" src="default.pdf#toolbar=0"></iframe>
+        </section>
+        <section>
+          <textarea name="main" className="main-textarea"></textarea>
+          <button onClick={handleNotification}>Click</button>
+          <NotesComponent />
+        </section>
+      </div>
     </>
   );
 }
