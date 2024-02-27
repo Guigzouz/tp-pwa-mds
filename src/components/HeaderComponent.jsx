@@ -14,6 +14,23 @@ function classNames(...classes) {
 }
 
 export default function HeaderComponent() {
+  const handleNotification = () => {
+    Notification.requestPermission().then((perm) => {
+      if (perm === "granted") {
+        const notification = new Notification("Hello, World!", {
+          body: Math.random(),
+          data: { hello: "world" },
+          icon: "144.png",
+          tag: "Welcome Message",
+        });
+
+        notification.onclose = () => {
+          console.log("The notification was closed.");
+        };
+      }
+    });
+  };
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -63,6 +80,7 @@ export default function HeaderComponent() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <button
                   type="button"
+                  onClick={handleNotification}
                   className="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                 >
                   <span className="absolute -inset-1.5" />
