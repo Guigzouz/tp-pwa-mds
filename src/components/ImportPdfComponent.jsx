@@ -4,6 +4,7 @@ export default function ImportPdfComponent() {
   const [file, setFile] = useState(null);
   const [pdfData, setPdfData] = useState(null);
   const [isFileSelected, setIsFileSelected] = useState(false);
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   function handleUpload() {
     if (!file) {
@@ -22,7 +23,7 @@ export default function ImportPdfComponent() {
     };
     reader.readAsDataURL(file);
 
-    setIsFileSelected(true); // Disable file input after file is selected
+    setIsFileUploaded(true);
   }
 
   function storeFileInIndexedDB(data) {
@@ -69,26 +70,29 @@ export default function ImportPdfComponent() {
   return (
     <div className="ImportPdfComponent">
       <div className="import-section">
-        <h1>Upload or choose file to read</h1>
-        <input
-          disabled={isFileSelected}
-          onChange={(e) => {
-            setFile(e.target.files[0]);
-          }}
-          type="file"
-          accept="application/pdf"
-        />
-        <button onClick={handleUpload} disabled={isFileSelected}>
-          Upload
-        </button>
+        {!isFileUploaded && (
+          <>
+            <h1>Upload or choose file to read</h1>
+            <input
+              disabled={isFileSelected}
+              onChange={(e) => {
+                setFile(e.target.files[0]);
+                setIsFileSelected(true);
+              }}
+              type="file"
+              accept="application/pdf"
+            />
+            <button onClick={handleUpload}>Upload</button>
+          </>
+        )}
+
         {pdfData && (
           <div>
-            <h2>Uploaded PDF</h2>
             <embed
               src={pdfData}
               type="application/pdf"
               width="100%"
-              height="600px"
+              height="1000px"
             />
           </div>
         )}
