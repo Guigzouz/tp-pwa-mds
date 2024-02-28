@@ -1,10 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function ImportPdfComponent() {
   const [file, setFile] = useState(null);
   const [pdfData, setPdfData] = useState(null);
   const [isFileSelected, setIsFileSelected] = useState(false);
   const [isFileUploaded, setIsFileUploaded] = useState(false);
+  const [pdfList, setPdfList] = useState([]);
+  const [selectedPdf, setSelectedPdf] = useState(null);
+
+  useEffect(() => {
+    getAllPdf();
+  }, []);
 
   function handleUpload() {
     if (!file) {
@@ -55,6 +61,7 @@ export default function ImportPdfComponent() {
 
       addRequest.onsuccess = function () {
         console.log("File stored in IndexedDB");
+        getAllPdf(); // Update the list after storing a new file
       };
 
       addRequest.onerror = function (event) {
@@ -65,6 +72,36 @@ export default function ImportPdfComponent() {
 
   function getAllPdf() {
     console.log("Fetching all PDFs from IndexedDB");
+    const request = window.indexedDB.open("FilesDatabase", 2);
+
+    request.onerror = function (event) {
+      console.log("IndexedDB error:", event.target.error);
+    };
+
+    request.onsuccess = function (event) {
+      const db = event.target.result;
+      const transaction = db.transaction(["files"], "readonly");
+      const objectStore = transaction.objectStore("files");
+      const getAllRequest = objectStore.getAll();
+
+      getAllRequest.onsuccess = function () {
+        console.log("Successfully retrieved PDFs from IndexedDB");
+        setPdfList(getAllRequest.result);
+      };
+
+      getAllRequest.onerror = function (event) {
+        console.error(
+          "Error retrieving PDFs from IndexedDB:",
+          event.target.error
+        );
+      };
+    };
+  }
+
+  function handlePdfSelection(pdfData) {
+    setPdfData(pdfData);
+    setSelectedPdf(pdfData);
+    setIsFileUploaded(true);
   }
 
   return (
@@ -98,7 +135,18 @@ export default function ImportPdfComponent() {
         )}
       </div>
 
-      <div className="choice-section">{getAllPdf()}</div>
+      <div className="choice-section">
+        <h2>All PDFs</h2>
+        <ul>
+          {pdfList.map((pdf, index) => (
+            <li key={index}>
+              <button onClick={() => handlePdfSelection(pdf.data)}>
+                PDF {index + 1}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
