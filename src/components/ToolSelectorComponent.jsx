@@ -1,6 +1,8 @@
 // Metronome
 // Youtube Player
 
+import MetronomeComponent from "./MetronomeComponent";
+
 export default function ToolSelectorComponent() {
-  return <div>Ouais</div>;
+  return <MetronomeComponent />;
 }
