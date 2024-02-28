@@ -4,7 +4,6 @@ export default function ImportPdfComponent() {
   const [file, setFile] = useState(null);
   const [pdfData, setPdfData] = useState(null);
   const [isFileSelected, setIsFileSelected] = useState(false);
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
   const [pdfList, setPdfList] = useState([]);
   const [selectedPdf, setSelectedPdf] = useState(null);
 
@@ -29,7 +28,7 @@ export default function ImportPdfComponent() {
     };
     reader.readAsDataURL(file);
 
-    setIsFileUploaded(true);
+    setIsFileSelected(true);
   }
 
   function storeFileInIndexedDB(data) {
@@ -101,13 +100,13 @@ export default function ImportPdfComponent() {
   function handlePdfSelection(pdfData) {
     setPdfData(pdfData);
     setSelectedPdf(pdfData);
-    setIsFileUploaded(true);
+    setIsFileSelected(true);
   }
 
   return (
     <div className="ImportPdfComponent">
       <div className="import-section">
-        {!isFileUploaded && (
+        {!isFileSelected && (
           <>
             <h1>Upload or choose file to read</h1>
             <input
@@ -136,16 +135,20 @@ export default function ImportPdfComponent() {
       </div>
 
       <div className="choice-section">
-        <h2>All PDFs</h2>
-        <ul>
-          {pdfList.map((pdf, index) => (
-            <li key={index}>
-              <button onClick={() => handlePdfSelection(pdf.data)}>
-                PDF {index + 1}
-              </button>
-            </li>
-          ))}
-        </ul>
+        {!isFileSelected && (
+          <>
+            <h2>All PDFs</h2>
+            <ul>
+              {pdfList.map((pdf, index) => (
+                <li key={index}>
+                  <button onClick={() => handlePdfSelection(pdf.data)}>
+                    PDF {index + 1}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
       </div>
     </div>
   );
