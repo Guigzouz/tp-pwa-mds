@@ -14,7 +14,9 @@ Push notifs : daily reminder
 feats:
 
 - youtube video to play along
-- metronome
+- Save btn appearing on changes
+- tuner
+- save reminder push notif
 
 fixes:
 

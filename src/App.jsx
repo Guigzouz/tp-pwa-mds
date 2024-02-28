@@ -21,7 +21,10 @@ function App() {
         <section className="main-section">
           <ImportPdfComponent />
         </section>
-        <section className="main-section">
+        <section
+          className="main-section flex flex-col
+        	"
+        >
           <textarea name="main" className="main-textarea"></textarea>
           <NotesComponent />
           <ToolSelectorComponent />
