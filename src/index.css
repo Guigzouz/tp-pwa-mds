@@ -13,3 +13,12 @@ body {
   height: 100vh;
   overflow: hidden;
 }
+
+.modal-save-workspace {
+  background-color: rgba(0, 0, 0, 0.24);
+}
+
+* {
+  font-family: monospace;
+  font-size: large;
+}

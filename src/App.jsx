@@ -3,6 +3,7 @@ import NotesComponent from "./components/NotesComponent";
 import HeaderComponent from "./components/HeaderComponent";
 import ImportPdfComponent from "./components/ImportPdfComponent";
 import ToolSelectorComponent from "./components/ToolSelectorComponent";
+import SaveWorkspaceComponent from "./components/SaveWorkspaceComponent";
 
 function App() {
   document.addEventListener("visibilitychange", () => {
@@ -29,6 +30,7 @@ function App() {
           <NotesComponent />
           <ToolSelectorComponent />
         </section>
+        <SaveWorkspaceComponent />
       </div>
     </>
   );
