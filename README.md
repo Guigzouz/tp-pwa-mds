@@ -11,13 +11,8 @@ Push notifs : daily reminder
 
 # 2 API JS (TtS, WebAudio, PushNotifs, Accel, GPS, ...)
 
-todo :
-
-tailwind toolbar
-
 feats:
 
-- chords playground
 - youtube video to play along
 - metronome
 
@@ -26,4 +21,7 @@ fixes:
 - pdf resize auto when changing window size
 
 home page w/ all pdfs
-Numpad controls that give the notes of a certain chord
+
+# VERCEL DEPLOYMENT URL
+
+https://tp-pwa-mds.vercel.app/
