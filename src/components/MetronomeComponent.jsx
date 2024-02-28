@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import "./MetronomeComponent.css"; // Import CSS file for styling
+import clickSound from "./click-sound.wav";
 
 export default function MetronomeComponent() {
   const [bpm, setBpm] = useState(60); // Default BPM is 60
@@ -7,22 +7,18 @@ export default function MetronomeComponent() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   const playClick = () => {
-    const audioContext = new (window.AudioContext ||
-      window.webkitAudioContext)();
-    const oscillator = audioContext.createOscillator();
-    oscillator.connect(audioContext.destination);
-    oscillator.start();
-
-    // Stop the oscillator after a short duration
-    setTimeout(() => oscillator.stop(), 100);
+    const click = new Audio(clickSound);
+    click.play();
   };
 
   const startMetronome = () => {
+    if (isPlaying) {
+      stopMetronome();
+    }
     // interval in ms
     const interval = (60 / bpm) * 1000;
     intervalRef.current = setInterval(() => {
       playClick();
-      setIsPlaying((prevIsPlaying) => !prevIsPlaying); // Toggle the state to trigger animation
     }, interval);
     setIsPlaying(true);
   };
@@ -55,8 +51,7 @@ export default function MetronomeComponent() {
         <h1>{bpm} BPM</h1>
         <button onClick={isPlaying ? stopMetronome : startMetronome}>
           {isPlaying ? "Stop" : "Start"}
-        </button>
-        <div className={isPlaying ? "dot playing" : "dot"}></div>
+        </button>{" "}
       </div>
     </>
   );
