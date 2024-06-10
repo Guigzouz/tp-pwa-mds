@@ -1,12 +1,12 @@
 import { useState } from "react";
 import MetronomeComponent from "./MetronomeComponent";
+import PlayAlongComponent from "./PlayAlongComponent";
 
 export default function ToolSelectorComponent() {
   const [toggleState, setToggleState] = useState(1);
 
   const toggleTab = (index) => {
     setToggleState(index);
-    console.log("hello", index);
   };
 
   return (
@@ -71,7 +71,7 @@ export default function ToolSelectorComponent() {
               : "content hidden"
           }
         >
-          Play along component
+          <PlayAlongComponent />
         </div>
       </div>
     </div>
