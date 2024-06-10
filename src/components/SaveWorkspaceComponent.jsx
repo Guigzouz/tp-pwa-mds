@@ -1,19 +1,33 @@
 import { useState } from "react";
 
-export default function SaveWorkspaceComponent() {
+export default function SaveWorkspaceComponent({ saveContent }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const workspace = {};
+  const [workspaceName, setWorkspaceName] = useState("");
 
   function handleSaveCta() {
-    console.log("clickeed");
+    console.log("clicked");
     setIsModalVisible(true);
   }
 
   function handleSaveWorkspace() {
-    setIsModalVisible(false);
+    if (workspaceName.trim() === "") {
+      alert("Please enter a workspace name");
+      return;
+    }
 
-    // window.location.reload();
+    // Save content to local storage with workspace name
+    saveContent(workspaceName);
+
+    setIsModalVisible(false);
+    setWorkspaceName("");
   }
+
+  function handleKeyPress(event) {
+    if (event.key === "Enter") {
+      handleSaveWorkspace();
+    }
+  }
+
   return (
     <>
       <button
@@ -31,10 +45,13 @@ export default function SaveWorkspaceComponent() {
               type="text"
               name="workspace-name"
               placeholder="Workspace name"
+              value={workspaceName}
+              onChange={(e) => setWorkspaceName(e.target.value)}
+              onKeyPress={handleKeyPress}
               required
             />
 
-            <button type="submit" onClick={handleSaveWorkspace}>
+            <button type="button" onClick={handleSaveWorkspace}>
               Save
             </button>
           </div>

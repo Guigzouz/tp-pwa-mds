@@ -11,6 +11,13 @@ export default function ImportPdfComponent() {
     getAllPdf();
   }, []);
 
+  useEffect(() => {
+    if (file) {
+      console.log("file log after setting", file);
+      handleUpload(); // Automatically handle the file upload after setting the file
+    }
+  }, [file]);
+
   function handleUpload() {
     if (!file) {
       console.log("No file selected");
@@ -32,7 +39,7 @@ export default function ImportPdfComponent() {
   }
 
   function storeFileInIndexedDB(data) {
-    const request = window.indexedDB.open("FilesDatabase", 2);
+    const request = window.indexedDB.open("FilesDatabase", 3); // Incremented version number
 
     request.onerror = function (event) {
       console.log("IndexedDB error:", event.target.error);
@@ -42,9 +49,7 @@ export default function ImportPdfComponent() {
       const db = event.target.result;
 
       // Create or modify object stores within a version change transaction
-      if (!db.objectStoreNames.contains("files")) {
-        db.createObjectStore("files", { autoIncrement: true });
-      }
+      db.createObjectStore("files", { autoIncrement: true });
     };
 
     request.onsuccess = function (event) {
@@ -71,7 +76,7 @@ export default function ImportPdfComponent() {
 
   function getAllPdf() {
     console.log("Fetching all PDFs from IndexedDB");
-    const request = window.indexedDB.open("FilesDatabase", 2);
+    const request = window.indexedDB.open("FilesDatabase", 3); // Incremented version number
 
     request.onerror = function (event) {
       console.log("IndexedDB error:", event.target.error);
@@ -112,8 +117,8 @@ export default function ImportPdfComponent() {
             <input
               disabled={isFileSelected}
               onChange={(e) => {
+                console.log("entering the change call", e.target.files[0]);
                 setFile(e.target.files[0]);
-                setIsFileSelected(true);
               }}
               type="file"
               accept="application/pdf"
