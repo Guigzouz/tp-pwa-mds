@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
-export default function PlayAlongComponent = () => {
+export default function PlayAlongComponent() {
   const [videoUrl, setVideoUrl] = useState("");
   const [videoId, setVideoId] = useState("");
 
@@ -46,5 +46,4 @@ export default function PlayAlongComponent = () => {
       )}
     </div>
   );
-};
-
+}
